@@ -1,0 +1,73 @@
+rnn-based_model_card:
+  name: Base+removeVar
+  RNN_algorithm: LSTM
+  model_information:
+    RNN_properties: {epochs: 3500, hidden_units: 20, learning_rate: 0.0007, n_inputs: 23,
+      n_outputs: 1, sequence_length: 16, rnn_layers: 1, optimizer: 'adam'}
+    training_class : {file_name : LSTM.py, location: /mnt/SPIE/ml-model-cards/}
+    data_preprocessor: {name: nasa_data_funcs_v4.py, location : /mnt/SPIE/ml-model-cards/}
+    input_data_frequency: 16
+    input_variable_names: [time, RALT, PSA, PI, PT, ALTR, IVV, VSPS, FPAC, BLAC, CTAC,
+      TAS, CAS, GS, CASS, WS, PTCH, ROLL, DA, TAT, SAT, LATP, LONP]
+    output_variable_names: [ALT]
+    model_datasheet:
+      testing_files: [687200107241524.parquet, 687200104301119.parquet, 
+        687200104181334.parquet, 687200107301239.parquet, 687200104170717.parquet,
+        687200104261527.parquet, 687200107170234.parquet]
+      testing_files_location: /mnt/SPIE/ml-model-cards/data
+      training_files: [687200107101600.parquet, 687200107060930.parquet, 
+        687200107181544.parquet, 687200104162039.parquet, 687200104202027.parquet,
+        687200107251652.parquet, 687200104181127.parquet, 687200107251002.parquet,
+        687200107122323.parquet, 687200107171131.parquet, 687200107311025.parquet,
+        687200107192334.parquet, 687200107150546.parquet]
+      training_files_location: /mnt/SPIE/ml-model-cards/data
+      validation_files: [687200107101623.parquet, 687200107060931.parquet, 
+        687200107181541.parquet, 687200104162032.parquet, 687200104202023.parquet,
+        687200107192330.parquet, 687200107150549.parquet]
+      validation_files_location: /mnt/SPIE/ml-model-cards/data
+    performance:
+      test: {MSE: '389.1024435718944', MSE_norm: 1.0885067922572489e-06, 
+        mean_error: 8.00731361488409, min_error: 0.0, std_error: 29.48358127688793,
+        max_error: 421.5643005371094, units: ft}
+      train: {MSE: 15.48635814304236, MSE_norm: 3.140855255878705e-07, 
+        mean_error: 13.48635814304236, min_error: 0.00018310546875, 
+        max_error: 89.2213134765625, std_error: 14.29056638518885, units: ft}
+      validation: {MSE: 386.1021435718944, MSE_norm: 4.5026759064453724e-07, 
+        mean_error: 13.48635814304236, min_error: 0.00018310546875,
+        max_error: 160.2213134765625, std_error: 14.29056638518885, units: ft}
+  bagging_metrics:
+    bagging_model_cards: {files: null, location: null}
+    properties: {n_bootstrap_loops: 3, replacement: false}
+    performance:
+      testing: {max_MSE: null, mean_MSE: 2.933555492745654e-06, min_MSE: null, 
+        std_MSE: null}
+  benchmark:
+    device1:
+      name: CovidPC
+      dataset: {location: /mnt/SPIE/ml-model-cards/data, name: example_flight.parquet}
+      RAM:
+        CAS_latency: 16
+        first_word_latency: {speed: 8.889, units: ns}
+        size: 32
+        speed: 3600
+        units: GB
+        voltage: {units: V, value: 1.35}
+      processor:
+        L1Cache_Data: {units: kB, value: 192}
+        L1Cache_Instruction: {units: kB, value: 192}
+        L2Cache: {units: kB, value: 3072}
+        L3Cache: {units: MB, value: 32}
+        TDP: {units: W, value: 65}
+        core_clock: {units: GHz, value: 3.6}
+        name: AMD Ryzen 5 3600
+        ncores: 6
+        type: CPU
+      performance:
+        data_processing_latency: {units: seconds, value: 0.2591249942779541}
+        model_inference_latency: {units: seconds, value: 0.401350736618042}
+        nonvolatile_memory_used: {units: MB, value: 7.4619035720825195}
+        throughput: {units: Kbps, value: 2.8}
+        validation: {MSE: 386.1021435718944, MSE_norm: 4.5026759064453724e-07, 
+          mean_error: 13.48635814304236, min_error: 0.00018310546875, std_error: 14.29056638518885,
+          max_error: 160.2213134765625, units: ft}
+        volatile_memory_used: {units: MB, value: 2084.9192708333335}
